@@ -23,6 +23,7 @@
 
 	<context:component-scan base-package="com.lichmama.demo.dao" />
 	<context:component-scan base-package="com.lichmama.demo.service" />
+	<context:property-placeholder location="classpath:*.properties" />
 
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxTotal" value="100" />
@@ -60,4 +61,61 @@
 	</bean>
 
 	<bean id="springContextHolder" class="com.lichmama.demo.common.util.SpringContextHolder" />
+
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.driverClassName}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+		<!-- 连接初始值，连接池启动时创建的连接数量的初始值 默认值是0 -->
+		<property name="initialSize" value="3" />
+		<!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 默认值是0 -->
+		<property name="minIdle" value="3" />
+		<!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 ，0时无限制 默认值是8 -->
+		<property name="maxIdle" value="5" />
+		<!-- 连接池的最大值，同一时间可以从池分配的最多连接数量，0时无限制 默认值是8 -->
+		<property name="maxTotal" value="15" />
+	</bean>
+
+	<!-- 配置事务管理 -->
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 默认对非检查型异常进行事物回滚 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="modify*" propagation="REQUIRED" />
+			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="query*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!--把事务控制在Service层 -->
+	<aop:config>
+		<aop:pointcut id="transactionPointCut"
+			expression="execution(* com.lichmama.demo.service.*.*(..))" />
+		<aop:advisor pointcut-ref="transactionPointCut"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	<bean id="sqlSessionFactory"
+		class="com.lichmama.demo.core.mybatis.EnhancedSqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="myBatisMapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lichmama.demo.dao" />
+	</bean>
 </beans>

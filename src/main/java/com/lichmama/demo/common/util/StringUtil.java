@@ -22,4 +22,14 @@ public final class StringUtil {
 	public static boolean isNotEqual(String s1, String s2) {
 		return !isEqual(s1, s2);
 	}
+
+	public static String join(Object[] objects, String delimeter) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < objects.length; i++) {
+			if (i > 0)
+				builder.append(delimeter);
+			builder.append(String.valueOf(objects[i]));
+		}
+		return builder.toString();
+	}
 }
