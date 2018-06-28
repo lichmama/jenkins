@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.lichmama.demo.common.constant.ActionMessage;
 import com.lichmama.demo.common.util.StringUtil;
 import com.lichmama.demo.entity.User;
 import com.lichmama.demo.service.IUserService;
