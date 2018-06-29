@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
+@RequestMapping("/error")
 public class ErrorAction {
 
 	@RequestMapping("/404")
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public String fileNotFound() {
+	public String pageNotFound() {
 		return "404";
 	}
 	

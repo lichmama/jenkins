@@ -240,7 +240,13 @@
 			<version>1.18.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+	
+		<!-- javamelody -->
+		<dependency>
+                <groupId>net.bull.javamelody</groupId>
+                <artifactId>javamelody-core</artifactId>
+                <version>1.73.1</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>spring_redis</finalName>
