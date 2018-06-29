@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lichmama.demo.common.constant.ActionMessage;
+import com.lichmama.demo.common.constant.ActionStatus;
 import com.lichmama.demo.common.util.StringUtil;
 import com.lichmama.demo.entity.User;
 import com.lichmama.demo.service.IUserService;
@@ -47,5 +50,11 @@ public class IndexAction {
 		}
 		session.setAttribute("loginUser", user);
 		return "redirect:/index";
+	}
+	
+	@RequestMapping("/test")
+	@ResponseBody
+	public ActionMessage test(@RequestParam("name") String name) {
+		return ActionStatus.success("hello, " + name);
 	}
 }

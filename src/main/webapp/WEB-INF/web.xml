@@ -44,6 +44,14 @@
 		<filter-name>javamelody</filter-name>
 		<filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
 		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>url-exclude-pattern</param-name>
+			<param-value>/js/*,/css/*,/image/*,/bootstrap/*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>allowed-addr-pattern</param-name>
+			<param-value>180.100.254.*</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>javamelody</filter-name>
