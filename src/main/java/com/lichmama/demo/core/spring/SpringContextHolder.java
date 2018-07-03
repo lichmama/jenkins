@@ -1,4 +1,4 @@
-package com.lichmama.demo.common.util;
+package com.lichmama.demo.core.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;

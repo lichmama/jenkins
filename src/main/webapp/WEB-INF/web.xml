@@ -41,12 +41,21 @@
 	</filter-mapping>
 
 	<filter>
+		<filter-name>etagFilter</filter-name>
+		<filter-class>org.springframework.web.filter.ShallowEtagHeaderFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>etagFilter</filter-name>
+		<servlet-name>springmvcServlet</servlet-name>
+	</filter-mapping>
+
+	<filter>
 		<filter-name>javamelody</filter-name>
 		<filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
 		<async-supported>true</async-supported>
 		<init-param>
 			<param-name>url-exclude-pattern</param-name>
-			<param-value>/js/*,/css/*,/image/*,/bootstrap/*</param-value>
+			<param-value>/resources/*</param-value>
 		</init-param>
 		<init-param>
 			<param-name>allowed-addr-pattern</param-name>
@@ -75,6 +84,11 @@
 		<servlet-name>springmvcServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error/403</location>
+	</error-page>
 
 	<error-page>
 		<error-code>404</error-code>

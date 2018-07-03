@@ -5,6 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.lichmama.demo.core.spring.SpringContextHolder;
+
 public final class RedisClient {
 
 	private static RedisTemplate<String, Object> redisTemplate = SpringContextHolder.getBean("redisTemplate");

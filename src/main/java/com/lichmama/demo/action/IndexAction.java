@@ -8,12 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lichmama.demo.common.constant.ActionMessage;
-import com.lichmama.demo.common.constant.ActionStatus;
 import com.lichmama.demo.common.util.StringUtil;
+import com.lichmama.demo.core.annotation.CurrentUser;
 import com.lichmama.demo.entity.User;
 import com.lichmama.demo.service.IUserService;
 
@@ -26,35 +23,35 @@ public class IndexAction {
 	private IUserService userService;
 
 	@RequestMapping({ "/", "/index" })
-	public String index(ModelMap modelMap, HttpSession session) {
-		User user = (User) session.getAttribute("loginUser");
-		if (user == null)
-			return "login";
-		modelMap.addAttribute("username", user.getUsername());
-		modelMap.addAttribute("sessionId", session.getId());
+	public String index() {
 		return "index";
 	}
 
 	@RequestMapping("/login")
 	public String login(String username, String password, ModelMap modelMap, HttpSession session) {
-		logger.debug("username: {}", username);
-		logger.debug("password: {}", password);
+		logger.debug("username: {}, password: {}", username, password);
 		User user = userService.getUserByName(username);
 		if (user == null) {
-			modelMap.addAttribute("failReason", "user not exists");
-			return "loginFailed";
+			modelMap.addAttribute("loginFail", "用户不存在！");
+			return "index";
 		}
 		if (StringUtil.isNotEqual(password, user.getPassword())) {
-			modelMap.addAttribute("failReason", "username or password is incorrect");
-			return "loginFailed";
+			modelMap.addAttribute("loginFail", "账号或密码不正确！");
+			return "index";
 		}
 		session.setAttribute("loginUser", user);
-		return "redirect:/index";
+		return "redirect:/main";
 	}
-	
-	@RequestMapping("/test")
-	@ResponseBody
-	public ActionMessage test(@RequestParam("name") String name) {
-		return ActionStatus.success("hello, " + name);
+
+	@RequestMapping("/main")
+	public String main(ModelMap modelMap, @CurrentUser User user) {
+		modelMap.addAttribute("username", user.getUsername());
+		return "main";
+	}
+
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/index";
 	}
 }

@@ -40,16 +40,4 @@ public class UserServiceImpl implements IUserService {
 	public void deleteUser(int id) {
 		userDAO.deleteUser(id);
 	}
-
-	@Override
-	public void updateUserWithException() {
-		User user = new User();
-		user.setId(3);
-		user.setUsername("lichmama");
-		user.setPassword("********");
-		user.setSex(0);
-		user.setCreateTime(new Date());
-		userDAO.updateUser(user);
-		throw new ServiceException("更新用户信息时出现异常");
-	}
 }

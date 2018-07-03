@@ -24,6 +24,7 @@
 	<context:property-placeholder location="classpath:*.properties" />
 	<context:component-scan base-package="com.lichmama.demo.dao" />
 	<context:component-scan base-package="com.lichmama.demo.service" />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxTotal" value="100" />
@@ -60,7 +61,7 @@
 		<property name="maxInactiveIntervalInSeconds" value="600" />
 	</bean>
 
-	<bean id="springContextHolder" class="com.lichmama.demo.common.util.SpringContextHolder" />
+	<bean id="springContextHolder" class="com.lichmama.demo.core.spring.SpringContextHolder" />
 
 	<!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"

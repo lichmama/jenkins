@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping("/error")
 public class ErrorAction {
 
+	@RequestMapping("/403")
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public String forbidden() {
+		return "403";
+	}
+	
 	@RequestMapping("/404")
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public String pageNotFound() {

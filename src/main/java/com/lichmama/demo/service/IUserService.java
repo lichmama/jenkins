@@ -13,6 +13,4 @@ public interface IUserService {
 	void updateUser(User user);
 
 	void deleteUser(int id);
-	
-	void updateUserWithException();
 }

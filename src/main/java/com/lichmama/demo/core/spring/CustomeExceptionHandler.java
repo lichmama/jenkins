@@ -1,4 +1,4 @@
-package com.lichmama.demo.core;
+package com.lichmama.demo.core.spring;
 
 import java.io.IOException;
 
