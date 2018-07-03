@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/lichmama/demo/core/mybatis/EnhancedSqlSessionFactoryBean.java=UTF-8
 encoding//src/main/webapp/WEB-INF/view/index.ftl=UTF-8
-encoding//src/main/webapp/WEB-INF/view/login.ftl=UTF-8
-encoding//src/main/webapp/WEB-INF/view/loginFailed.ftl=UTF-8
+encoding//src/main/webapp/WEB-INF/view/main.ftl=UTF-8
+encoding/<project>=UTF-8
