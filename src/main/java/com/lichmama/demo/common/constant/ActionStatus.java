@@ -19,4 +19,8 @@ public class ActionStatus {
 	public static ActionMessage error() {
 		return new ActionMessage(ERROR);
 	}
+	
+	public static ActionMessage error(String text) {
+		return new ActionMessage(new Message(500, text));
+	}
 }

@@ -21,7 +21,7 @@
     http://www.springframework.org/schema/util  
     http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-	<context:property-placeholder location="classpath:*.properties" />
+	<context:property-placeholder location="classpath:database.properties,classpath:log4j.properties" />
 	<context:component-scan base-package="com.lichmama.demo.dao" />
 	<context:component-scan base-package="com.lichmama.demo.service" />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
@@ -89,13 +89,13 @@
 	<!-- 默认对非检查型异常进行事物回滚 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="delete*" propagation="REQUIRED" />
-			<tx:method name="remove*" propagation="REQUIRED" />
-			<tx:method name="insert*" propagation="REQUIRED" />
-			<tx:method name="save*" propagation="REQUIRED" />
-			<tx:method name="add*" propagation="REQUIRED" />
-			<tx:method name="update*" propagation="REQUIRED" />
-			<tx:method name="modify*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="remove*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="add*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="modify*" propagation="REQUIRED" read-only="false" />
 			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
 			<tx:method name="query*" propagation="SUPPORTS" read-only="true" />
 			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
@@ -118,5 +118,13 @@
 
 	<bean id="myBatisMapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.lichmama.demo.dao" />
+	</bean>
+	
+	<bean class="com.lichmama.demo.common.util.ConfigUtil">
+<!-- 		<property name="configLocations"> -->
+<!-- 			<list> -->
+<!-- 				<value>D:/system.config</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
 	</bean>
 </beans>

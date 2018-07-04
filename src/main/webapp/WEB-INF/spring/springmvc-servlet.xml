@@ -20,7 +20,6 @@
 
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
-			<!-- 用户参数解析器 -->
 			<bean id="userArgumentResolver"
 				class="com.lichmama.demo.core.spring.UserArgumentResolver">
 				<property name="userTypeClass"
@@ -47,6 +46,7 @@
 			<mvc:exclude-mapping path="/index"/>
 			<mvc:exclude-mapping path="/login"/>
 			<mvc:exclude-mapping path="/logout"/>
+			<mvc:exclude-mapping path="/error/**"/>
 			<mvc:exclude-mapping path="/resources/**"/>
 			<bean class="com.lichmama.demo.core.spring.LoginInterceptor" />
 		</mvc:interceptor>

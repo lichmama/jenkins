@@ -32,4 +32,12 @@ public final class StringUtil {
 		}
 		return builder.toString();
 	}
+	
+	public static String ltrim(String s) {
+		return s.replaceFirst("^\\s+", "");
+	}
+	
+	public static String rtrim(String s) {
+		return s.replaceFirst("\\s+$", "");
+	}
 }

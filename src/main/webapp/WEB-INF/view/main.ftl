@@ -40,7 +40,7 @@
 <body>
 	<div>
 		<div class="header">
-			<span style="line-height: 30px; margin-left: 10px;">[valar morghulis]</span>
+			<span style="line-height: 30px; margin-left: 10px;">[代码改变世界]</span>
 			<ul>
 				<li><span class="glyphicon glyphicon-user"></span><a href="#">${username}</a></li>
 				<li><span class="glyphicon glyphicon-log-out"></span><a href="/logout">退出</a></li>

@@ -45,7 +45,7 @@ public class IndexAction {
 
 	@RequestMapping("/main")
 	public String main(ModelMap modelMap, @CurrentUser User user) {
-		modelMap.addAttribute("username", user.getUsername());
+		modelMap.addAttribute("username", user.getRealname());
 		return "main";
 	}
 
