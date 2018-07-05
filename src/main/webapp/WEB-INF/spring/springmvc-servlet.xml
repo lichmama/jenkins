@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
@@ -10,8 +10,8 @@
         http://www.springframework.org/schema/context/spring-context-3.2.xsd 
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
-        http://www.springframework.org/schema/task 
-        http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+        http://www.springframework.org/schema/aop  
+    	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd ">
 
 	<bean id="objectMapper"
 		class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
@@ -20,10 +20,8 @@
 
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
-			<bean id="userArgumentResolver"
-				class="com.lichmama.demo.core.spring.UserArgumentResolver">
-				<property name="userTypeClass"
-					value="com.lichmama.demo.entity.User" />
+			<bean id="userArgumentResolver" class="com.lichmama.demo.core.spring.UserArgumentResolver">
+				<property name="userTypeClass" value="com.lichmama.demo.entity.User" />
 			</bean>
 		</mvc:argument-resolvers>
 		<mvc:message-converters>
@@ -38,26 +36,23 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	
+
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<mvc:exclude-mapping path="/"/>
-			<mvc:exclude-mapping path="/index"/>
-			<mvc:exclude-mapping path="/login"/>
-			<mvc:exclude-mapping path="/logout"/>
-			<mvc:exclude-mapping path="/error/**"/>
-			<mvc:exclude-mapping path="/resources/**"/>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/" />
+			<mvc:exclude-mapping path="/index" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/logout" />
+			<mvc:exclude-mapping path="/error/**" />
+			<mvc:exclude-mapping path="/resources/**" />
 			<bean class="com.lichmama.demo.core.spring.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<!-- 配置静态资源访问规则 -->
 	<mvc:resources location="/resources/" mapping="/resources/**" />
-	<!-- <mvc:resources location="/js/" mapping="/js/**" /> -->
-	<!-- <mvc:resources location="/css/" mapping="/css/**" /> -->
-	<!-- <mvc:resources location="/image/" mapping="/image/**" /> -->
-	<!-- <mvc:resources location="/bootstrap/" mapping="/bootstrap/**" /> -->
+	<mvc:resources mapping="/favicon.ico" location="/resources/image/favicon.ico" />
 
 	<context:component-scan base-package="com.lichmama.demo.action" />
 
@@ -91,4 +86,8 @@
 	</bean>
 
 	<bean id="customeExceptionHandler" class="com.lichmama.demo.core.spring.CustomeExceptionHandler" />
+
+	<context:component-scan base-package="com.lichmama.demo.core.aop" />
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 </beans>

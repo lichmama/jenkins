@@ -1,11 +1,8 @@
 package com.lichmama.demo.service.impl;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lichmama.demo.common.constant.ServiceException;
 import com.lichmama.demo.dao.IUserDAO;
 import com.lichmama.demo.entity.User;
 import com.lichmama.demo.service.IUserService;

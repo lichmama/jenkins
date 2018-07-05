@@ -45,7 +45,7 @@ public class ConfigUtil implements InitializingBean {
 		 * @throws IOException
 		 */
 		private void loadConfigFile(String configFile) throws IOException {
-			log.debug("loading configFile: " + configFile);
+			log.debug("loading configFile: {}", configFile);
 			if (!configFile.matches("^(?:http|ftp)://.*?$")) {
 				if (!configFile.startsWith("/"))
 					configFile = "/" + configFile;

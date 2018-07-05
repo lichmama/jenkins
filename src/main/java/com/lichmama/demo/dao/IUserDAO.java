@@ -23,14 +23,14 @@ public interface IUserDAO {
 
 	@Insert("insert into users(id, username, password, realname, gender, phone, email, create_time createTime, update_time updateTime) "
 			+ "values(#{id}, #{username}, #{password}, #{realname}, #{gender}, #{phone}, #{email}, sysdate, sysdate)")
-	void addUser(User user);
+	int addUser(User user);
 
 	@Update("update users "
 			+ "set username = #{username}, password = #{password}, realname = #{realname}, gender = #{sex}, phone = #{phone}, "
 			+ "email = #{email}, update_time = sysdate "
 			+ "where id = #{id}")
-	void updateUser(User user);
+	int updateUser(User user);
 
 	@Delete("delete from users where id = #{id}")
-	void deleteUser(int id);
+	int deleteUser(int id);
 }

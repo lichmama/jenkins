@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lichmama.demo.common.util.StringUtil;
 import com.lichmama.demo.core.annotation.CurrentUser;
+import com.lichmama.demo.core.annotation.Logtag;
 import com.lichmama.demo.entity.User;
 import com.lichmama.demo.service.IUserService;
 
@@ -28,6 +29,7 @@ public class IndexAction {
 	}
 
 	@RequestMapping("/login")
+	@Logtag(module = "登录模块", operation = "用户登录")
 	public String login(String username, String password, ModelMap modelMap, HttpSession session) {
 		logger.debug("username: {}, password: {}", username, password);
 		User user = userService.getUserByName(username);
@@ -50,6 +52,7 @@ public class IndexAction {
 	}
 
 	@RequestMapping("/logout")
+	@Logtag(module = "登录模块", operation = "用户退出")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/index";
