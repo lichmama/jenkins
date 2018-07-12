@@ -13,12 +13,12 @@ import org.springframework.core.io.UrlResource;
 import lombok.extern.slf4j.Slf4j;
 
 public class ConfigUtil implements InitializingBean {
+	private static final int INITIAL_CAPACITY = 1000;
 
 	@Slf4j
 	private static class ConfigMap extends ConcurrentHashMap<String, Object> {
 		public ConfigMap(List<String> configLocations) {
-			// set the initialCapacity to 1000
-			super(1000);
+			super(INITIAL_CAPACITY);
 			initConfigMap(configLocations);
 		}
 
@@ -27,15 +27,8 @@ public class ConfigUtil implements InitializingBean {
 				log.debug("initConfigMap finished, configLocations is null");
 				return;
 			}
-			for (String configFile : configLocations) {
-				try {
-					loadConfigFile(configFile);
-				} catch (IOException e) {
-					log.error(e.getMessage(), e);
-					throw new IllegalArgumentException(
-							"unexpected exception occurs when load configFile [" + configFile + "]");
-				}
-			}
+			for (String configFile : configLocations)
+				loadConfigFile(configFile);
 		}
 
 		/**
@@ -44,37 +37,41 @@ public class ConfigUtil implements InitializingBean {
 		 * @param configFile
 		 * @throws IOException
 		 */
-		private void loadConfigFile(String configFile) throws IOException {
+		private void loadConfigFile(String configFile) {
 			log.debug("loading configFile: {}", configFile);
-			if (!configFile.matches("^(?:http|ftp)://.*?$")) {
+			if (!configFile.matches("^(?:http|ftp|file)://.*?$")) {
 				if (!configFile.startsWith("/"))
 					configFile = "/" + configFile;
 				configFile = "file://" + configFile;
 			}
-			InputStream is = new UrlResource(configFile).getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (!line.matches("^[A-Za-z0-9._]+\\s*=.*?$"))
-					continue;
-				String[] keyAndValue = line.split("=", 2);
-				String key = keyAndValue[0].trim();
-				String value = keyAndValue[1];
-				if (StringUtil.isNotEmpty(value)) {
-					value = StringUtil.ltrim(value);
-					value = StringUtil.rtrim(value);
+			try (InputStream is = new UrlResource(configFile).getInputStream();
+					BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));) {
+				String line;
+				while ((line = br.readLine()) != null) {
+					if (!line.matches("^[A-Za-z0-9._]+\\s*=.*?$"))
+						continue;
+					String[] keyAndValue = line.split("=", 2);
+					String key = keyAndValue[0].trim();
+					String value = keyAndValue[1];
+					if (StringUtil.isNotEmpty(value)) {
+						value = StringUtil.ltrim(value);
+						value = StringUtil.rtrim(value);
+					}
+					put(key, value);
 				}
-				put(key, value);
+			} catch (IOException e) {
+				log.error(e.getMessage(), e);
+				throw new IllegalArgumentException(
+						"unexpected exception occurs when load configFile [" + configFile + "]");
 			}
-			br.close();
 		}
 	}
 
 	private ConfigUtil() {
 	}
 
-	private List<String> configLocations;
 	private static ConfigMap configMap;
+	private List<String> configLocations;
 
 	public List<String> getConfigLocations() {
 		return configLocations;
@@ -97,10 +94,20 @@ public class ConfigUtil implements InitializingBean {
 		configMap.put(key, value);
 	}
 
+	public static boolean exists(String key) {
+		return configMap.containsKey(key);
+	}
+
+	public static Object getConfig(String key, Object preset) {
+		if (!exists(key))
+			return preset;
+		return getConfig(key);
+	}
+
 	public static String getString(String key) {
 		Object object = getConfig(key);
 		if (object == null)
-			return "";
+			return null;
 		return String.valueOf(object);
 	}
 

@@ -1,6 +1,7 @@
 package com.lichmama.demo.common.util;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
@@ -57,7 +58,7 @@ public final class RedisClient {
 	public static void hset(String key, String field, Object value) {
 		redisTemplate.opsForHash().put(key, field, value);
 	}
-	
+
 	public static void hset(String key, String field, Object value, long seconds) {
 		hset(key, field, value);
 		expire(key, seconds);
@@ -65,5 +66,42 @@ public final class RedisClient {
 
 	public static Object hget(String key, String field) {
 		return redisTemplate.opsForHash().get(key, field);
+	}
+
+	public static void hmset(String key, Map<String, Object> map) {
+		redisTemplate.opsForHash().putAll(key, map);
+	}
+
+	public static void hmset(String key, Map<String, Object> map, long seconds) {
+		redisTemplate.opsForHash().putAll(key, map);
+		expire(key, seconds);
+	}
+
+	public static Map<Object, Object> hmget(String key) {
+		return redisTemplate.opsForHash().entries(key);
+	}
+
+	public static long hincr(String key, String item, long delta) {
+		return redisTemplate.opsForHash().increment(key, item, delta);
+	}
+
+	public static long hdecr(String key, String item, long delta) {
+		return redisTemplate.opsForHash().increment(key, item, -delta);
+	}
+
+	public static void lpush(String key, Object value) {
+		redisTemplate.opsForList().leftPush(key, value);
+	}
+
+	public static void rpush(String key, Object value) {
+		redisTemplate.opsForList().rightPush(key, value);
+	}
+
+	public static Object lpop(String key) {
+		return redisTemplate.opsForList().leftPop(key);
+	}
+
+	public static Object rpop(String key) {
+		return redisTemplate.opsForList().rightPop(key);
 	}
 }

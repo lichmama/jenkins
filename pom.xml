@@ -240,13 +240,20 @@
 			<version>1.18.0</version>
 			<scope>provided</scope>
 		</dependency>
-	
+
 		<!-- javamelody -->
 		<dependency>
-                <groupId>net.bull.javamelody</groupId>
-                <artifactId>javamelody-core</artifactId>
-                <version>1.73.1</version>
-        </dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>1.73.1</version>
+		</dependency>
+		
+		<!-- spring-test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>spring_redis</finalName>

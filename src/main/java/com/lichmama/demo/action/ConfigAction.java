@@ -2,7 +2,6 @@ package com.lichmama.demo.action;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lichmama.demo.common.constant.ActionMessage;
@@ -18,7 +17,7 @@ public class ConfigAction {
 
 	@RequestMapping("/set")
 	@ResponseBody
-	public ActionMessage setConfig(@RequestParam String key, @RequestParam String value) {
+	public ActionMessage setConfig(String key, String value) {
 		log.debug("key: {}, value: {}", key, value);
 		ConfigUtil.setConfig(key, value);
 		return ActionStatus.success();
@@ -26,7 +25,7 @@ public class ConfigAction {
 
 	@RequestMapping("/get")
 	@ResponseBody
-	public String getConfig(@RequestParam String key) {
+	public String getConfig(String key) {
 		String value = ConfigUtil.getString(key);
 		log.debug("key: {}, value: {}", key, value);
 		return value;
