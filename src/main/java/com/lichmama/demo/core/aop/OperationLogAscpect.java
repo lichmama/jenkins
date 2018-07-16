@@ -21,11 +21,8 @@ import com.lichmama.demo.entity.OperationLog;
 import com.lichmama.demo.entity.User;
 import com.lichmama.demo.service.ILogService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Aspect
 @Component
-@Slf4j
 public class OperationLogAscpect {
 
 	@Autowired
@@ -47,9 +44,7 @@ public class OperationLogAscpect {
 			loginUser = getLoginUser(request);
 			result = proceed(joinPoint);
 		}
-		if (loginUser == null) {
-			log.debug("skip over saving log because user not logined");
-		} else {
+		if (loginUser != null) {
 			MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 			Logtag tag = signature.getMethod().getAnnotation(Logtag.class);
 			saveOperationLog(request, loginUser, tag, (long) result.get("usage"));

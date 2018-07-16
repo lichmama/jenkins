@@ -43,20 +43,28 @@
 		height: 30px;
 		margin-left: 100px;
 	}
+	
+	#kaptcha {
+		width: 90px;
+		height: 30px;
+		margin-left: 10px;
+		border: solid 1px;
+	}
 </style>
 </head>
 <body>
 	<div style="width: 500px; margin: 0 auto;">
 		<div class="loginForm">
 			<div id="header"><span class="glyphicon glyphicon-user"></span> 用户登录</div>
-			<div style="padding: 10px; margin-top: 30px;">
+			<div style="padding: 10px; margin-top: 20px;">
 				<form action="/login" method="post">
 					<label>账号：</label><input type="text" id="username" name="username"><br>
 					<label>密码：</label><input type="password" id="password" name="password"><br>
+					<label>验证码：</label><input type="text" id="vcode" name="vcode" style="width: 200px;"><img id="kaptcha" src="/kaptcha" title="看不清，换一个">
 					<#if loginFail??>
 						<span style="color: red; margin-left: 100px; font-size: 12px;">登录失败：${loginFail}</span>
 					</#if>
-					<div style="margin-top: 30px;">
+					<div style="margin-top: 20px;">
 						<input type="submit" value="提交" class="form-btn" id="submit">
 						<input type="reset" value="重置" class="form-btn">
 					</div>
@@ -75,6 +83,10 @@
 			alert('login-error: password is empty');
 			return false;
 		}		
+	})
+	
+	$('#kaptcha').click(function(){
+		$(this).attr('src', '/kaptcha?t=' + new Date().getTime());
 	})
 </script>
 </html>

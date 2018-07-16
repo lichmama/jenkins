@@ -44,8 +44,10 @@
 			<mvc:exclude-mapping path="/index" />
 			<mvc:exclude-mapping path="/login" />
 			<mvc:exclude-mapping path="/logout" />
+			<mvc:exclude-mapping path="/kaptcha" />
 			<mvc:exclude-mapping path="/error/**" />
 			<mvc:exclude-mapping path="/resources/**" />
+			<mvc:exclude-mapping path="/favicon.ico" />
 			<bean class="com.lichmama.demo.core.spring.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
@@ -74,7 +76,7 @@
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="cache" value="true" />
-		<property name="prefix" value="" /><!-- 上面已经配了，这里就不用配啦 -->
+		<property name="prefix" value="" />
 		<property name="suffix" value=".ftl" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="allowSessionOverride" value="true" />
@@ -90,4 +92,25 @@
 	<context:component-scan base-package="com.lichmama.demo.core.aop" />
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<bean id="defaultKaptcha" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.image.width">120</prop>
+						<prop key="kaptcha.image.height">40</prop>
+						<prop key="kaptcha.textproducer.char.string">0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ</prop>
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<prop key="kaptcha.border">no</prop>
+						<prop key="kaptcha.textproducer.font.color">blue</prop>
+						<prop key="kaptcha.textproducer.font.size">35</prop>
+						<prop key="kaptcha.noise.color">black</prop>
+						<prop key="kaptcha.textproducer.char.space">4</prop>
+<!-- 						<prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.ShadowGimpy</prop> -->
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
 </beans>
