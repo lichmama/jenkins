@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -89,25 +90,29 @@ public class ConfigUtil implements InitializingBean {
 	public static Object getConfig(String key) {
 		return configMap.get(key);
 	}
-
-	public static void setConfig(String key, Object value) {
-		configMap.put(key, value);
-	}
-
-	public static boolean exists(String key) {
-		return configMap.containsKey(key);
-	}
-
+	
 	public static Object getConfig(String key, Object preset) {
 		if (!exists(key))
 			return preset;
 		return getConfig(key);
 	}
 
+	public static void setConfig(String key, Object value) {
+		configMap.put(key, value);
+	}
+	
+	public static void setConfig(Map<String, Object> map) {
+		configMap.putAll(map);
+	}
+
+	public static boolean exists(String key) {
+		return configMap.containsKey(key);
+	}
+
 	public static String getString(String key) {
 		Object object = getConfig(key);
 		if (object == null)
-			return null;
+			return "";
 		return String.valueOf(object);
 	}
 
