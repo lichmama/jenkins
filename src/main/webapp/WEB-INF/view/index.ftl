@@ -44,7 +44,7 @@
 		margin-left: 100px;
 	}
 	
-	#kaptcha {
+	#captcha {
 		width: 90px;
 		height: 30px;
 		margin-left: 10px;
@@ -60,7 +60,7 @@
 				<form action="/login" method="post">
 					<label>账号：</label><input type="text" id="username" name="username"><br>
 					<label>密码：</label><input type="password" id="password" name="password"><br>
-					<label>验证码：</label><input type="text" id="vcode" name="vcode" style="width: 200px;"><img id="kaptcha" src="/kaptcha" title="看不清，换一个">
+					<label>验证码：</label><input type="text" id="vcode" name="vcode" style="width: 200px;"><img id="captcha" src="/captcha" title="看不清，换一个">
 					<#if loginFail??>
 						<span style="color: red; margin-left: 100px; font-size: 12px;">登录失败：${loginFail}</span>
 					</#if>
@@ -85,8 +85,8 @@
 		}		
 	})
 	
-	$('#kaptcha').click(function(){
-		$(this).attr('src', '/kaptcha?t=' + new Date().getTime());
+	$('#captcha').click(function(){
+		$(this).attr('src', '/captcha?t=' + new Date().getTime());
 	})
 </script>
 </html>

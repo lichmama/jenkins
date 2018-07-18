@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/config")
-@Api(value = "配置管理接口", tags = { "配置信息管理" })
+@Api(description = "配置管理接口")
 @Slf4j
 public class ConfigAction {
 
@@ -41,8 +41,9 @@ public class ConfigAction {
 	@ApiOperation(value = "获取配置信息")
 	@ApiImplicitParam(name = "key", value = "键", paramType = "query", dataType = "string")
 	public Map<String, Object> getConfig(String key) {
-		Map<String, Object> map = new HashMap<>();
 		Object value = ConfigUtil.getConfig(key);
+		log.debug("key: {}, value: {}", key, value);
+		Map<String, Object> map = new HashMap<>();
 		map.put(key, value);
 		return map;
 	}

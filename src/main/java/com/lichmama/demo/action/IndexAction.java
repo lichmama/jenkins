@@ -22,7 +22,10 @@ import com.lichmama.demo.core.annotation.Logtag;
 import com.lichmama.demo.entity.User;
 import com.lichmama.demo.service.IUserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class IndexAction {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -73,10 +76,10 @@ public class IndexAction {
 		return "redirect:/index";
 	}
 
-	@RequestMapping("/kaptcha")
-	public void kaptcha(HttpSession session, HttpServletResponse response) {
+	@RequestMapping("/captcha")
+	public void captcha(HttpSession session, HttpServletResponse response) {
 		response.setDateHeader("Expires", 0);
-		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		response.setHeader("Cache-Control", "no-store, no-cache,must-revalidate");
 		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
 		response.setHeader("Pragma", "no-cache");
 		response.setContentType("image/jpeg");
@@ -86,8 +89,7 @@ public class IndexAction {
 		try {
 			ImageIO.write(bi, "jpg", response.getOutputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 }
